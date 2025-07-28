@@ -1,8 +1,10 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey, Enum as SQLEnum
-from sqlalchemy.orm import declarative_base
 from enum import Enum
 
+from sqlalchemy import Column, Integer, String, Date, ForeignKey, Enum as SQLEnum
+from sqlalchemy.orm import declarative_base
+
 Base = declarative_base()
+
 
 class User(Base):
     __tablename__ = "users"
@@ -42,7 +44,7 @@ class BookCopy(Base):
     __tablename__ = "book_copies"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    book_id = Column(Integer, ForeignKey("books.id"))
+    book_id = Column(Integer, ForeignKey("books.id"), nullable=False)
     status = Column(SQLEnum(BookCopyStatus), nullable=False)
 
 
@@ -50,8 +52,8 @@ class Loan(Base):
     __tablename__ = "loans"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    book_copy_id = Column(Integer, ForeignKey("book_copies.id"))
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    book_copy_id = Column(Integer, ForeignKey("book_copies.id"), nullable=False)
     loan_date = Column(Date, nullable=False)
     due_date = Column(Date, nullable=False)
     return_date = Column(Date, nullable=True)
